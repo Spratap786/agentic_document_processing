@@ -1,0 +1,50 @@
+# DOCKER-COMPOSE.YML — All three databases in one command.
+#
+# Start:  docker compose up -d
+# Stop:   docker compose down
+# Wipe:   docker compose down -v   (deletes all data too)
+#
+# Your Python code runs on your machine and connects to these
+# via localhost. (In a later phase we'll dockerize the app itself.)
+
+services:
+
+  postgres:
+    image: postgres:16-alpine        # official open source image
+    environment:
+      POSTGRES_USER: docuser
+      POSTGRES_PASSWORD: docpass
+      POSTGRES_DB: docdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    # Redis now does ONE job: caching. The queue moved to RabbitMQ.
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    # The message queue. The "-management" tag includes a web dashboard
+    # at http://localhost:15672 (login: guest / guest) where you can
+    # SEE queues, message counts, and consumers — great for learning.
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672"     # AMQP protocol — your Python code connects here
+      - "15672:15672"   # Web management UI
+    volumes:
+      - rabbitmqdata:/var/lib/rabbitmq
+
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodata:/data/db
+
+volumes:
+  pgdata:
+  mongodata:
+  rabbitmqdata:

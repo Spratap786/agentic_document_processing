@@ -1,12 +1,28 @@
+# Agent pipeline
 langgraph
 langchain
-langchain-ollama
 langchain-core
-python-dotenv
+langchain-ollama
+
+# Document tools
 pymupdf
 pillow
 pytesseract
 
-# Alternatives — install whichever you prefer instead of Ollama:
-# langchain-openai          (needs OPENAI_API_KEY in .env)
-# langchain-google-genai    (needs GOOGLE_API_KEY in .env)
+# Backend
+fastapi
+uvicorn[standard]
+python-multipart
+
+# Databases
+psycopg2-binary
+pymongo
+redis
+pika
+
+# Frontend
+streamlit
+requests
+
+# Utils
+python-dotenv

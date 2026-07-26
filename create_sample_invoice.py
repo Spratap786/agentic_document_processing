@@ -1,55 +1,30 @@
 """
-CREATE_SAMPLE_INVOICE.PY — Generates a test invoice PDF.
-
-Run this once to create a sample PDF you can test with:
-    python create_sample_invoice.py
-
-This creates: documents/invoice.pdf
+CREATE_SAMPLE_INVOICE.PY — Makes a test PDF.
+Run: python create_sample_invoice.py  → documents/invoice.pdf
 """
 
-import fitz  # PyMuPDF
 import os
+
+import fitz
 
 os.makedirs("documents", exist_ok=True)
 
 doc = fitz.open()
 page = doc.new_page()
-
-invoice_text = """
+page.insert_text((50, 50), """
     INVOICE
 
-    Invoice Number : INV-2024-00891
-    Invoice Date   : 12 July 2026
-    Due Date       : 26 July 2026
+    Invoice Number : INV-2026-00417
+    Invoice Date   : 20 July 2026
 
-    BILL TO:
-    Acme Corporation
-    123 Business Street
-    Bengaluru, Karnataka 560001
+    BILL TO: Acme Corporation
+    FROM:    Tech Solutions Pvt Ltd
 
-    FROM:
-    Tech Solutions Pvt Ltd
-    456 Startup Avenue
-    Bengaluru, Karnataka 560002
-
-    ─────────────────────────────────────────────
-    ITEM              QTY    UNIT PRICE    TOTAL
-    ─────────────────────────────────────────────
-    Web Development    1     ₹50,000       ₹50,000
-    UI/UX Design       1     ₹20,000       ₹20,000
-    Hosting Setup      1     ₹10,000       ₹10,000
-    ─────────────────────────────────────────────
-                                 TOTAL:  ₹80,000
-    ─────────────────────────────────────────────
-
-    Payment Terms: Net 14 days
-    Bank: HDFC Bank | Account: 1234567890 | IFSC: HDFC0001234
-"""
-
-page.insert_text((50, 50), invoice_text, fontsize=11)
+    ITEM              QTY    TOTAL
+    Web Development    1     50,000
+    UI/UX Design       1     20,000
+                    TOTAL:   70,000
+""", fontsize=11)
 doc.save("documents/invoice.pdf")
 doc.close()
-
-print("✅ Sample invoice created at: documents/invoice.pdf")
-print("   Invoice Number in the PDF: INV-2024-00891")
-print("\nNow run: python app.py")
+print("✅ Created documents/invoice.pdf (invoice number: INV-2026-00417)")
